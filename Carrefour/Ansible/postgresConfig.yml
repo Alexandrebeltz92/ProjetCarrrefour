@@ -1,0 +1,89 @@
+---
+# Configure the postgresql user for database
+- name: Create PostgreSQL User for database
+  hosts: localhost
+  become: true
+  tasks:
+  # Configure the postgresql user for database 1
+    - name: Create PostgreSQL user for db1
+      community.postgresql.postgresql_user:
+        name: myuser1
+        password: mypassword1
+        encrypted: yes
+        db: exampledb1
+        priv: ALL
+        login_host: postgresql-server-uniware.postgres.database.azure.com
+        login_user: user@postgresql-server-uniware
+        login_password: Formation2022+
+        port: 5432
+        ssl_mode: require
+
+  # Configure the postgresql user for database 2
+    - name: Create PostgreSQL user for db2
+      community.postgresql.postgresql_user:
+        name: myuser2
+        password: mypassword2
+        db: exampledb2
+        priv: ALL
+        login_host: postgresql-server-uniware.postgres.database.azure.com
+        login_user: user@postgresql-server-uniware
+        login_password: Formation2022+
+        port: 5432
+        ssl_mode: require
+
+  # Configure the postgresql user for database 3
+    - name: Create PostgreSQL user for db3
+      community.postgresql.postgresql_user:
+        name: myuser3
+        password: mypassword3
+        db: exampledb3
+        priv: ALL
+        login_host: postgresql-server-uniware.postgres.database.azure.com
+        login_user: user@postgresql-server-uniware
+        login_password: Formation2022+
+        port: 5432
+        ssl_mode: require
+
+  # Create table in database 1 by myuser1
+    - name: Create table in PostgreSQL database 1 by myuser1
+      ignore_errors: true
+      postgresql_query:
+        db: exampledb1
+        login_host: postgresql-server-uniware.postgres.database.azure.com
+        login_user: myuser1@postgresql-server-uniware
+        login_password: mypassword1
+        ssl_mode: require
+        query: CREATE TABLE subname (id serial PRIMARY KEY, name varchar(255) NOT NULL);
+  
+  # Insert data in table in database 1 by myuser1 for example
+    - name: Insert data in PostgreSQL database 1 by myuser1
+      ignore_errors: true
+      postgresql_query:
+        db: exampledb1
+        login_host: postgresql-server-uniware.postgres.database.azure.com
+        login_user: myuser1@postgresql-server-uniware
+        login_password: mypassword1
+        ssl_mode: require
+        query: INSERT INTO subname (name) VALUES ('hector'), ('alfred'), ('etienne');
+
+  # Create table in database 3 by user for example
+    - name: Create table in PostgreSQL database 3 by user
+      ignore_errors: true
+      postgresql_query:
+        db: exampledb3
+        login_host: postgresql-server-uniware.postgres.database.azure.com
+        login_user: user@postgresql-server-uniware
+        login_password: Formation2022+
+        ssl_mode: require
+        query: CREATE TABLE exampleName (id serial PRIMARY KEY, name varchar(255) NOT NULL);
+    
+  # Insert data table in database 3 by user for example
+    - name: Insert data in PostgreSQL database 3 by user
+      ignore_errors: true
+      postgresql_query:
+        db: exampledb3
+        login_host: postgresql-server-uniware.postgres.database.azure.com
+        login_user: user@postgresql-server-uniware
+        login_password: Formation2022+
+        ssl_mode: require
+        query: INSERT INTO exampleName (name) VALUES ('its'), ('working'), ('just'), ('fine');
