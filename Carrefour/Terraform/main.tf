@@ -4,6 +4,10 @@ resource "azurerm_resource_group" "resource_group" {
   location = "West Europe"
 }
 
+# Variables for postgresql server
+variable "administrator_login" {}
+variable "administrator_login_password" {}
+
 # Configure the postgresql server
 resource "azurerm_postgresql_server" "server" {
   name                = "postgresql-server-uniware"
@@ -17,8 +21,8 @@ resource "azurerm_postgresql_server" "server" {
   geo_redundant_backup_enabled = false
   auto_grow_enabled            = true
 
-  administrator_login          = "user"
-  administrator_login_password = "Formation2022+"
+  administrator_login          = var.administrator_login
+  administrator_login_password = var.administrator_login_password
   version                      = "9.5"
   ssl_enforcement_enabled      = true
 }
